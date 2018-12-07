@@ -55,8 +55,8 @@ def rec_for_user(uid):
                                 top_courses=5)
 
     recs = [
-        {'name': course_names[i], 'score': 1.0 - i*i * 0.1, 'id': name_to_id[course_names[i]]} for i in
-        predictions
+        {'name': course_names[i], 'score': 1.0 - k*k / 64, 'id': name_to_id[course_names[i]]} for i, k in
+        zip(predictions, range(len(predictions)))
     ]
     ###
     return jsonify(recs)
