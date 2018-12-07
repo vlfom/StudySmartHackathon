@@ -34,7 +34,8 @@ class MLModel():
 
 
 app = Flask(__name__, static_url_path='/static')
-database = pd.DataFrame(columns=['uid', 'cid', 'score'])
+database = {}
+name_to_id = {}
 
 
 @app.route('/')
@@ -57,17 +58,13 @@ def rec_for_user(uid):
             ['IN0001', 'IN0002', 'IN0003'])
     ]
     ###
-
     return jsonify(recs)
 
 
 @app.route('/users/<int:uid>/votes')
 def votes_for_user(uid):
     recs = [
-        {'name': n, 'score': s, 'id': i} for n, s, i in
-        zip(['BWL I', 'BWL II', 'VWL I'],
-            [5.0, 1.0, 2.0],
-            ['WI0001', 'WI0002', 'WI0003'])
+        {'name': e, 'score': database[e], 'id': name_to_id[e]} for e in database
     ]
     return jsonify(recs)
 
@@ -76,22 +73,7 @@ def votes_for_user(uid):
 def do_vote(uid):
     # print(dict(request.form))
     for cid in request.form:
-        # print(database.loc[
-            # (database.uid == uid) & (database.cid == cid)
-        # ])
-        # print(database.loc[
-            # (database.uid == uid) & (database.cid == cid)
-        # ].empty)
-        if database.loc[
-            (database.uid == uid) & (database.cid == cid)
-        ].empty:
-            database.loc[len(database)] = [uid, cid, float(request.form[cid])]
-        else:
-            database.loc[
-                (database.uid == uid) & (database.cid == cid), 'score'
-            ] = float(request.form[cid])
-
-        print(database)
+        database[cid] = float(request.form[cid])
     return 'Vote sucksassful'
 
 
