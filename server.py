@@ -1,7 +1,12 @@
 from flask import Flask, jsonify
 
 
-app = Flask(__name__, template_folder='.')
+app = Flask(__name__, static_url_path='/static')
+
+
+@app.route('/')
+def main():
+    return app.send_static_file('index.html')
 
 
 @app.route('/users/<uid>/recommendations')
