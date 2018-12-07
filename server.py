@@ -37,6 +37,7 @@ class MLModel():
 
 app = Flask(__name__, static_url_path='/static')
 database = {}
+database_z = [0] * len(course_names)
 name_to_id = dict(zip(course_names, course_ids))
 
 
@@ -74,6 +75,8 @@ def do_vote(uid):
     # print(dict(request.form))
     for cid in request.form:
         database[cid] = float(request.form[cid])
+        i = course_names.index(cid)
+        database_z[i] = float(request.form[cid])
     return 'Vote sucksassful'
 
 
