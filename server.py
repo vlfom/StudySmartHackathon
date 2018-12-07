@@ -52,9 +52,12 @@ def rec_for_user(uid):
 
     # Get dummy predictions
     predictions = model.predict([5., 6., 7., 0., 7., 8., 7., 0., 8., 5.],
-                                top_courses=3)
+                                top_courses=5)
 
-    recs = {'preds': predictions}
+    recs = [
+        {'name': course_names[i], 'score': 1.0 - i*i * 0.1, 'id': name_to_id[course_names[i]]} for i in
+        predictions
+    ]
     ###
     return jsonify(recs)
 
