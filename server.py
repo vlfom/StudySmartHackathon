@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error as MSE
 
+
 class MLModel():
     def __init__(self):
         #Wait forever for incoming htto requests
@@ -50,9 +51,10 @@ def rec_for_user(uid):
                                 top_courses=3)
 
     recs = [
-        {'name': n, 'score': s} for n, s in
+        {'name': n, 'score': s, 'id': i} for n, s, i in
         zip(['BWL I', 'BWL II', 'VWL I'],
-            [predictions[0] + 1, predictions[1] + 1, predictions[2] + 1])
+            [predictions[0] + 1, predictions[1] + 1, predictions[2] + 1],
+            ['WI0001', 'WI0002', 'WI0003'])
     ]
     ###
 
