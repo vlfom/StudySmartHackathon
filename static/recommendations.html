@@ -62,6 +62,16 @@
           <h1 class="mt-5">Courses Recommendation</h1>
         </div>
         <div class="col-lg-12 text-center mt-4">
+          
+            <br/>
+            <button v-on:click="get_recs()">GET RECS!</button>
+            <br/>
+            <ul>
+              <li v-for="rec in outlist">
+                {{ rec.name }}: {{ rec.score }}
+              </li>
+            </ul>
+
           <table class="table text-left">
             <thead>
               <tr>
@@ -103,6 +113,8 @@
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/vue/vue.js"></script>
+    <script src="index.js"></script>
 
   </body>
 

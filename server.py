@@ -1,12 +1,35 @@
 from flask import Flask, jsonify, request
+
+import os
+os.environ["KERAS_BACKEND"] = "tensorflow"
+import tensorflow as tf
+import keras
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error as MSE
 
 class MLModel():
     def __init__(self):
-        pass
+        #Wait forever for incoming htto requests
+        n_nodes_inp = 10
+        n_nodes_h = 10  
+        n_nodes_out = 10
+
+        inp = keras.layers.Input(shape=[n_nodes_inp], name='Item')
+        embedding = keras.layers.Dense(n_nodes_h, activation='sigmoid')(inp)
+        output = keras.layers.Dense(n_nodes_out, activation=None)(embedding)
+
+        self.model = keras.Model(inp, output)
+        self.model.compile('adam', 'mean_squared_error')
+        self.model.load_weights("model.h5")
 
     def predict(self, user_ratings, top_courses):
-        return user_ratings
+        user_ratings = np.array(user_ratings)
+        predictions = self.model.predict(user_ratings.reshape(1, -1))
+        ix = np.argsort(-predictions[0])
+        return np.array(list(zip(predictions[0][ix], ix))[:top_courses])[:, 1].astype(np.int).tolist()
 
 
 app = Flask(__name__, static_url_path='/static')
@@ -29,7 +52,7 @@ def rec_for_user(uid):
     recs = [
         {'name': n, 'score': s} for n, s in
         zip(['BWL I', 'BWL II', 'VWL I'],
-            [predictions[0], predictions[1], predictions[2]])
+            [predictions[0] + 1, predictions[1] + 1, predictions[2] + 1])
     ]
     ###
 
