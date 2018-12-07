@@ -37,7 +37,7 @@ class MLModel():
 
 app = Flask(__name__, static_url_path='/static')
 database = {}
-name_to_id = {}
+name_to_id = dict(zip(course_names, course_ids))
 
 
 @app.route('/')
@@ -54,10 +54,8 @@ def rec_for_user(uid):
                                 top_courses=3)
 
     recs = [
-        {'name': n, 'score': s, 'id': i} for n, s, i in
-        zip(['BWL I', 'BWL II', 'VWL I'],
-            [predictions[0] + 1, predictions[1] + 1, predictions[2] + 1],
-            ['IN0001', 'IN0002', 'IN0003'])
+        {'name': course_names[i], 'score': 0.9, 'id': name_to_id[course_names[i]]} for i in
+        [predictions[0], predictions[1], predictions[2]]
     ]
     ###
     return jsonify(recs)
@@ -87,4 +85,4 @@ if __name__ == '__main__':
                                 top_courses=3)
     ###
 
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')

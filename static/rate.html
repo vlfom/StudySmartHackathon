@@ -61,13 +61,7 @@
         <div class="col-lg-12 text-left">
           <h1 class="mt-5">Rate a course</h1>
         </div>
-        <div class="col-lg-12 text-center mt-4">
-          <div id="main-app">
-            <ul>
-              <li v-for="(score, course) in votes">
-                {{ course }}: {{ score }}
-              </li>
-            </ul>
+        <div class="col-lg-12 text-center mt-4" id="rate-app">
             <select v-model="crt_course">
               <option v-for="course in avail_courses">{{ course }}</option>
             </select>
@@ -84,8 +78,8 @@
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="vendor/vue/vue.js"></script>
-    <script src="index.js"></script>
+    <script src="/static/vendor/vue/vue.js"></script>
+    <script src="/static/rate.js"></script>
 
   </body>
 

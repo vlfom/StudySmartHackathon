@@ -6,6 +6,8 @@ var vm = new Vue({
     el: "#rate-app",
     data: {
         avail_courses: course_names,
+	crt_course: '',
+	crt_grade: '',
     },
 
     methods: {
