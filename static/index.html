@@ -52,9 +52,11 @@
             <li>jQuery 3.3.1</li>
           </ul>
           <div id="userrecommend">
+            <button v-on:click='get_recs()'>GET RECS</button>
+            <button v-on:click='get_votes()'>GET VOTES</button>
             <ul class="list-unstyled">
-              <li v-for="rec in recommendations">
-                {{ rec.name }}: {{ rec.score }}
+              <li v-for="stuff in outlist">
+                {{ stuff.name }}: {{ stuff.score }}
               </li>
             </ul>
           </div>

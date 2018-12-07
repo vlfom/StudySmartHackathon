@@ -22,7 +22,11 @@ def rec_for_user(uid):
 
 @app.route('/users/<uid>/votes')
 def votes_for_user(uid):
-    recs = [('Buchhaltung', 4), ('Huesos', 2)]
+    recs = [
+        {'name': n, 'score': s} for n, s in zip(
+            ['Buchhaltung', 'Huynya'], [5, 2]
+        )
+    ]
     return jsonify(recs)
 
 
