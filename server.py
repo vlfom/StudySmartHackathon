@@ -1,7 +1,9 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
+import pandas as pd
 
 
 app = Flask(__name__, static_url_path='/static')
+database = pd.DataFrame(columns=['uid', 'cid', 'score'])
 
 
 @app.route('/')
@@ -28,6 +30,16 @@ def votes_for_user(uid):
         )
     ]
     return jsonify(recs)
+
+
+@app.route('/users/<int:uid>/vote', methods=['POST'])
+def do_vote(uid):
+    database.append(
+        [int(request.post['uid']),
+         int(request.post['cid']),
+         float(request.post['score'])]
+    )
+    return 'Vote sucksassful'
 
 
 if __name__ == '__main__':

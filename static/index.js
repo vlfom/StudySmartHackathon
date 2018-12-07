@@ -1,11 +1,14 @@
 console.log('yey');
 var vm = new Vue({
-    el: "#userrecommend",
+    el: "#main-app",
     data: {
-        outlist: []
+        outlist: [],
+        do_vote: false,
+        avail_courses: ['hui', 'govno']
     },
     methods: {
         get_recs: function () {
+            this.do_vote = false;
             var self = this;
             $.getJSON(
                 '/users/0/recommendations'
@@ -14,12 +17,16 @@ var vm = new Vue({
             });
         },
         get_votes: function () {
+            this.do_vote = false;
             var self = this;
             $.getJSON(
                 '/users/0/votes'
             ).then(function (response) {
                 self.outlist = response;
             });
+        },
+        display_vote: function () {
+            this.do_vote = true;
         }
     }
 });

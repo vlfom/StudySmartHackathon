@@ -51,14 +51,20 @@
             <li>Bootstrap 4.1.3</li>
             <li>jQuery 3.3.1</li>
           </ul>
-          <div id="userrecommend">
-            <button v-on:click='get_recs()'>GET RECS</button>
-            <button v-on:click='get_votes()'>GET VOTES</button>
-            <ul class="list-unstyled">
+          <div id="main-app">
+            <button v-on:click="get_recs()">GET RECS</button>
+            <button v-on:click="get_votes()">GET VOTES</button>
+            <button v-on:click="display_vote()">DO VOTE</button>
+            <ul class="list-unstyled" v-if="!do_vote">
               <li v-for="stuff in outlist">
                 {{ stuff.name }}: {{ stuff.score }}
               </li>
             </ul>
+            <div v-if="do_vote">
+              <select v-model="selected">
+                <option v-for="ac in avail_courses">{{ ac }}</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
