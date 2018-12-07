@@ -16,7 +16,6 @@ var vm = new Vue({
             var self = this;
             $.getJSON({
                 url:'/users/0/recommendations',
-                data: this.votes
             }).then(function (response) {
                 self.outlist = response;
             });
@@ -24,11 +23,18 @@ var vm = new Vue({
 
         add_vote: function () {
             if (!this.crt_course || !this.crt_grade) return;
-            console.log('here');
             this.votes[this.crt_course] = this.crt_grade;
-            this.avail_courses = this.avail_courses.filter(
-                function (el) { return el !== this.crt_course; }
-            );
+            // this.avail_courses = this.avail_courses.filter(
+                // function (el) { return el !== this.crt_course; }
+            // );
+            var jdata = {};
+            jdata[this.crt_course] = this.crt_grade;
+            console.log(jdata);
+            $.post({
+                url: '/users/0/vote',
+                data: jdata,
+                dataType: 'json'
+            });
             this.crt_course = '';
             this.crt_grade = '';
         }

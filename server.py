@@ -48,11 +48,24 @@ def votes_for_user(uid):
 
 @app.route('/users/<int:uid>/vote', methods=['POST'])
 def do_vote(uid):
-    database.append(
-        [int(request.post['uid']),
-         int(request.post['cid']),
-         float(request.post['score'])]
-    )
+    # print(dict(request.form))
+    for cid in request.form:
+        # print(database.loc[
+            # (database.uid == uid) & (database.cid == cid)
+        # ])
+        # print(database.loc[
+            # (database.uid == uid) & (database.cid == cid)
+        # ].empty)
+        if database.loc[
+            (database.uid == uid) & (database.cid == cid)
+        ].empty:
+            database.loc[len(database)] = [uid, cid, float(request.form[cid])]
+        else:
+            database.loc[
+                (database.uid == uid) & (database.cid == cid), 'score'
+            ] = float(request.form[cid])
+
+        print(database)
     return 'Vote sucksassful'
 
 
