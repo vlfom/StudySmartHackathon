@@ -54,7 +54,7 @@ def rec_for_user(uid):
         {'name': n, 'score': s, 'id': i} for n, s, i in
         zip(['BWL I', 'BWL II', 'VWL I'],
             [predictions[0] + 1, predictions[1] + 1, predictions[2] + 1],
-            ['WI0001', 'WI0002', 'WI0003'])
+            ['IN0001', 'IN0002', 'IN0003'])
     ]
     ###
 
@@ -63,8 +63,12 @@ def rec_for_user(uid):
 
 @app.route('/users/<int:uid>/votes')
 def votes_for_user(uid):
-    recs = [{r['cid']: r['score']} for _, r in
-            database.loc[(database.uid == uid)].iterrows()]
+    recs = [
+        {'name': n, 'score': s, 'id': i} for n, s, i in
+        zip(['BWL I', 'BWL II', 'VWL I'],
+            [5.0, 1.0, 2.0],
+            ['WI0001', 'WI0002', 'WI0003'])
+    ]
     return jsonify(recs)
 
 

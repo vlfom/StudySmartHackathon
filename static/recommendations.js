@@ -2,7 +2,7 @@ console.log('yey');
 var rec_vm = new Vue({
     el: "#rec-app",
     data: {
-        recommendations: [],
+        cscores: [],
     },
 
     methods: {
@@ -11,7 +11,7 @@ var rec_vm = new Vue({
             $.getJSON({
                 url:'/users/0/recommendations',
             }).then(function (response) {
-                self.outlist = response;
+                self.cscores = response;
             });
         },
     }
