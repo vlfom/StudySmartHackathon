@@ -12,12 +12,20 @@ var vm = new Vue({
 
     methods: {
         get_recs: function () {
-            this.do_vote = false;
             var self = this;
             $.getJSON({
                 url:'/users/0/recommendations',
             }).then(function (response) {
                 self.outlist = response;
+            });
+        },
+
+        get_votes: function () {
+            var self = this;
+            $.getJSON({
+                url:'/users/0/votes',
+            }).then(function (response) {
+                self.votes = response;
             });
         },
 
@@ -41,4 +49,4 @@ var vm = new Vue({
     }
 });
 
-// vm.get_recs();
+ vm.get_votes();

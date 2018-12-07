@@ -36,13 +36,10 @@ def rec_for_user(uid):
     return jsonify(recs)
 
 
-@app.route('/users/<uid>/votes')
+@app.route('/users/<int:uid>/votes')
 def votes_for_user(uid):
-    recs = [
-        {'name': n, 'score': s} for n, s in zip(
-            ['Buchhaltung', 'Huynya'], [5, 2]
-        )
-    ]
+    recs = [{r['cid']: r['score']} for _, r in
+            database.loc[(database.uid == uid)].iterrows()]
     return jsonify(recs)
 
 
