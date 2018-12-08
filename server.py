@@ -16,9 +16,9 @@ course_ids = ["IN0001", "IN0002", "IN0003", "IN0004", "IN0005", "IN0006", "IN000
 class MLModel():
     def __init__(self):
         #Wait forever for incoming htto requests
-        n_nodes_inp = 10
+        n_nodes_inp = 34
         n_nodes_h = 10  
-        n_nodes_out = 10
+        n_nodes_out = 34
 
         inp = keras.layers.Input(shape=[n_nodes_inp], name='Item')
         embedding = keras.layers.Dense(n_nodes_h, activation='sigmoid')(inp)
@@ -51,12 +51,27 @@ def rec_for_user(uid):
     global model
 
     # Get dummy predictions
-    predictions = model.predict([5., 6., 7., 0., 7., 8., 7., 0., 8., 5.],
-                                top_courses=5)
+    print(database_z)
+    predictions = model.predict([_/5.0 for _ in database_z],
+                                top_courses=20)
+
+    have_predictions = []
+    for i in range(len(database_z)):
+        if database_z[i] > 0:
+            have_predictions.append(i)
+
+    idxs = []
+    counter = 0
+    for _ in predictions:
+        if _ not in have_predictions:
+            idxs.append(_)
+            counter += 1
+            if counter == 7:
+                break
 
     recs = [
-        {'name': course_names[i], 'score': 1.0 - k*k / 64, 'id': name_to_id[course_names[i]]} for i, k in
-        zip(predictions, range(len(predictions)))
+        {'name': course_names[i], 'score': round(1.0 - k*k / 100.0, 2), 'id': name_to_id[course_names[i]]} for i, k in
+        zip(idxs, range(len(idxs)))
     ]
     ###
     return jsonify(recs)
@@ -84,7 +99,7 @@ if __name__ == '__main__':
     # Load and prepare ML Model
     global model
     model = MLModel()
-    predictions = model.predict([5., 6., 7., 0., 7., 8., 7., 0., 8., 5.],
+    predictions = model.predict([0]*34,
                                 top_courses=3)
     ###
 
